@@ -16,7 +16,7 @@ import { ErrorService } from "./error.service";
             height: 100vh;
         }
     `] 
-});
+})
 
 export class ErrorComponent implements OnInit{
     error : Error;
