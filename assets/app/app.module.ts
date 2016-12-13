@@ -29,6 +29,6 @@ import { MessageModule } from "./messages/message.module";
         ErrorService
     ],
     bootstrap : [AppComponent] 
-});
+})
 
 export class AppModule{}
