@@ -9,7 +9,7 @@ import { ErrorService } from "../errors/error.service";
 @Injectable()
 export class MessageService {
     private messages : Message[] = [];
-    messageIsEdit = new EventEmitter<>(Message);
+    messageIsEdit = new EventEmitter<Message>();
     
     constructor(private http: Http, private errorService: ErrorService) {
     }
@@ -61,5 +61,32 @@ export class MessageService {
     
     editMessage(message : Message){
         this.messageIsEdit.emit(message);
+    }
+    
+    updateMessage(message : Message) {
+        const body = JSON.stringify(message);
+        const headers = new Headers({'Content-Type': 'application/json'});
+        const token = localStorage.getItem('token')
+            ? '?token=' + localStorage.getItem('token')
+            : '';
+        return this.http.patch('http://localhost:3000/message/' + message.messageId + token, body, {headers: headers})
+            .map((response: Response) => response.json())
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    deleteMessage(message : Message) {
+        this.messages.splice(this.messages.indexOf(message), 1);
+        const token = localStorage.getItem('token')
+            ? '?token=' + localStorage.getItem('token')
+            : '';
+        return this.http.delete('http://localhost:3000/message/' + message.messageId + token)
+            .map((response: Response) => response.json())
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
     }
 }
