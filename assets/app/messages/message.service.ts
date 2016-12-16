@@ -51,7 +51,7 @@ export class MessageService {
                     );
                 }
                 this.messages = transformedMessages;
-                result transformedMessages;
+                return transformedMessages;
             })
             .catch((error : Response) => {
                 this.errorService.handleError(error.json());

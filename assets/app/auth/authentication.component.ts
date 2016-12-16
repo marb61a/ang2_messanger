@@ -17,7 +17,7 @@ import { AuthService } from "./auth.service";
             <router-outlet></router-outlet>
         </div>
     `
-});
+})
 
 export class AuthenticationComponent{
     constructor(private authService: AuthService){
